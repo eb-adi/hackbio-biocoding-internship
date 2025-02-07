@@ -1,12 +1,13 @@
 name = "Ebubechiokike Adiele, Haja Harivelo, Svetlana Sokolova"
-email = "ebube.adiele01@gmail.com, hajaharivelo@gmail.com, ssookolova01@qub.ac.uk "
-slack_username = "Ebubechiokike, Haja and Svetlana"
-hobby1, hobby2, hobby3 = ["music", "cooking", "playing the piano"]
+email = "ebube.adiele01@gmail.com, harivelo3@gmail.com, ssokolova01@qub.ac.uk "
+slack_username = "@Ebubechiokike,@Haja and @Svetlana"
+hobby1, hobby2, hobby3 = ["music", "cooking", "playing piano"]
+discipline1, discipline2, discipline3 = ["AMRs in Cancer", "Immunoinformatics", " Drug Discovery"]
 country1, country2, country3 = ["Nigeria", "Madagascar", " Russia"]
 pref_prog_lang1, pref_prog_lang2 = ["Python", "R"]
-details = f"Hello, My name is Ebube and I will be hosting this tutorial video.\n\nWe are team cysterine and we would like you to meet us.\n\nThe members of our team are {name}. Our email addresses are {email}.\n\nYou can find us on slack @ {slack_username}"
-other_details = f"\n\nI am from {country1}, Haja is from {country2}, and Svetlana is from {country3}.\n\nI love {hobby1}, Haja loves {hobby2} and Svetlana loves {hobby3}.\n\nHaja and I prefer to code in {pref_prog_lang1} while Svetlana prefers {pref_prog_lang2}"
-thankyounote = "\n\nThank you so much for watching this short tutorial."
-print(details)
-print(other_details)
-print(thankyounote)
+Tutorial_monologue = f"Hello, My name is Ebube and I will be hosting this tutorial video.\n\nWe are team cysterine and we would like you to meet us.\n\nThe members of our team are {name}. You can contact us via our respective email addresses at {email}.\n\nYou can also find us on slack {slack_username}.\n\nWe are a team with a multidisciplinary field because I am specialized in {discipline1}, Haja in {discipline2} and Svetlana in {discipline3} \n\nI am from {country1}, Haja is from {country2}, and Svetlana is from {country3}.\n\nI love {hobby1}, Haja loves {hobby2} and Svetlana loves {hobby3}.\n\nHaja and I prefer to code in {pref_prog_lang1} while Svetlana prefers {pref_prog_lang2}.\n\nThank you so much for watching this short tutorial."
+print(Tutorial_monologue)
+
+#Here are the links to our tutorial video on LinkedIn:https://bit.ly/4gvIw90 and https://bit.ly/4aQCNJA
+#Our GitHub links are : Ebube's(https://github.com/eb-adi/hackbio-biocoding-internship.git), Haja's (https://github.com/Hajaharivelo-RAV/HackBio-biocoding-internship/tree/main) and Svetlana's (https://github.com/ssokolova01/labdept/new/main)
+#The code differs slightly from the one in the video because we made modifications after
