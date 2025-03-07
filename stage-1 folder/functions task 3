@@ -1,0 +1,47 @@
+#Write a function for determining the time to reach 80% of the maximum growth; usually the carrying capacity
+
+#Solution
+
+import random
+import math
+
+def logistic_growth(P0, K, r, time_steps, lag_phase_max, exp_phase_max):
+
+    lag_phase_duration = random.randint(1, lag_phase_max)
+    exp_phase_duration = random.randint(lag_phase_duration + 1, exp_phase_max)
+
+    # Time array and population storage
+    P = [0] * time_steps
+
+    for i in range(time_steps):
+        if i < lag_phase_duration:
+            # Lag Phase: Minimal growth
+            P[i] = P0 * (1 + 0.005 * i)
+        elif i < exp_phase_duration:
+            # Exponential Growth Phase
+            P[i] = K / (1 + ((K - P0) / P0) * math.exp(-r * (i - lag_phase_duration)))
+        else:
+            # Logistic Growth Phase (Saturation)
+            P[i] = K / (1 + ((K - P[exp_phase_duration-1]) / P[exp_phase_duration-1]) * math.exp(-r * (i - exp_phase_duration)))
+
+    return P
+
+def time_to_80_percent(P0, K, r, time_steps, lag_phase_max, exp_phase_max):
+    # Returns the time step at which the population reaches 80% of the carrying capacity
+
+    growth_curve = logistic_growth(P0, K, r, time_steps, lag_phase_max, exp_phase_max)
+
+    # Calculate 80% of the carrying capacity
+    target = 0.8 * K
+
+    # Find the time step where the population first exceeds the target
+    for t in range(time_steps):
+        if growth_curve[t] >= target:
+            return t  # Return the time step when 80% is reached
+
+    return None  # If the target is never reached, return None
+
+
+# Determine the time to reach 80% of carrying capacity
+time_to_reach_80 = time_to_80_percent(P0, K, r, time_steps, lag_phase_max, exp_phase_max)
+print(f"Time to reach 80% of carrying capacity: {time_to_reach_80} time steps")
