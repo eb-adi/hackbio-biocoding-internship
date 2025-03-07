@@ -1,0 +1,64 @@
+#Write a function that simulates and generates a logistic population growth curve. 
+#Your function should include 2 extra parameters that randomize the length of the lag phase and the exponential phase 
+#Therefore, your growth curve can be: Population Size vs Time, Cell density vs Time, OD vs Time, CFU vs Time, etc
+#Using your function, generate a dataframe with 100 different growth curves
+
+#Solution
+
+import random
+import math
+
+def logistic_growth(P0, K, r, time_steps, lag_phase_max, exp_phase_max):
+    # Simulates and returns a logistic population growth curve with randomized lag and exponential phases.
+
+    # Parameters:
+    # P0 (float): Initial population size
+    # K (float): Carrying capacity (max population)
+    # r (float): Growth rate
+    # time_steps (int): Number of time steps to simulate
+    # lag_phase_max (int): Maximum possible duration for the lag phase (randomized)
+    # exp_phase_max (int): Maximum possible duration for the exponential phase (randomized)
+
+    # Returns:
+    # list: Population values over time
+
+    # Randomly determine lag phase and exponential growth phase durations
+    lag_phase_duration = random.randint(1, lag_phase_max)
+    exp_phase_duration = random.randint(lag_phase_duration + 1, exp_phase_max)
+
+    # Time array and population storage
+    P = [0] * time_steps
+
+    for i in range(time_steps):
+        if i < lag_phase_duration:
+            # Lag Phase: Minimal growth
+            P[i] = P0 * (1 + 0.005 * i)
+        elif i < exp_phase_duration:
+            # Exponential Growth Phase
+            P[i] = K / (1 + ((K - P0) / P0) * math.exp(-r * (i - lag_phase_duration)))
+        else:
+            # Logistic Growth Phase (Saturation)
+            P[i] = K / (1 + ((K - P[exp_phase_duration-1]) / P[exp_phase_duration-1]) * math.exp(-r * (i - exp_phase_duration)))
+
+    return P
+
+# Generate 100 different growth curves
+num_curves = 100
+time_steps = 100  # Number of time steps
+data = []
+
+# Generate the data for each curve
+for i in range(num_curves):
+    P0 = random.randint(5, 50)      # Random initial population
+    K = random.randint(500, 2000)   # Random carrying capacity
+    r = random.uniform(0.1, 0.5)    # Random growth rate
+    lag_phase_max = random.randint(5, 20)  # Random max lag phase
+    exp_phase_max = random.randint(30, 60)  # Random max exponential phase
+
+    growth_curve = logistic_growth(P0, K, r, time_steps, lag_phase_max, exp_phase_max)
+    data.append(growth_curve)
+
+# Now, 'data' contains 100 growth curves, each a list of 100 time steps.
+# To mimic a DataFrame, we'll print it out as rows (each row corresponds to one curve)
+for i in range(num_curves):
+    print(f"Curve {i+1}: {data[i]}")
