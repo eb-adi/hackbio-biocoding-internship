@@ -1,1 +1,73 @@
+#Write a function for translating DNA to protein
+#Solution
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
+def logistic_growth(P0, K, r, time_steps, lag_phase_max, exp_phase_max):
+
+    #Simulates and returns a logistic population growth curve with randomized lag and exponential phases.
+
+    #Parameters:
+       #P0 (float): Initial population size
+        #K (float): Carrying capacity (max population)
+        #r (float): Growth rate
+        #time_steps (int): Number of time steps to simulate
+        #lag_phase_max (int): Maximum possible duration for the lag phase (randomized)
+        #exp_phase_max (int): Maximum possible duration for the exponential phase (randomized)
+
+    #Returns:
+        #np.array: Population values over time
+
+
+    # Randomly determine lag phase and exponential growth phase durations
+    lag_phase_duration = np.random.randint(1, lag_phase_max)
+    exp_phase_duration = np.random.randint(lag_phase_duration + 1, exp_phase_max)
+
+    # Time array and population storage
+    P = np.zeros(time_steps)
+
+    for i in range(time_steps):
+        if i < lag_phase_duration:
+            # Lag Phase: Minimal growth
+            P[i] = P0 * (1 + 0.005 * i)
+        elif i < exp_phase_duration:
+            # Exponential Growth Phase
+            P[i] = K / (1 + ((K - P0) / P0) * np.exp(-r * (i - lag_phase_duration)))
+        else:
+            # Logistic Growth Phase (Saturation)
+            P[i] = K / (1 + ((K - P[exp_phase_duration-1]) / P[exp_phase_duration-1]) * np.exp(-r * (i - exp_phase_duration)))
+
+    return P
+
+# Generate 100 different growth curves and store in a DataFrame
+num_curves = 100
+time_steps = 100  # Number of time steps
+data = []
+
+for i in range(num_curves):
+    P0 = np.random.randint(5, 50)      # Random initial population
+    K = np.random.randint(500, 2000)   # Random carrying capacity
+    r = np.random.uniform(0.1, 0.5)    # Random growth rate
+    lag_phase_max = np.random.randint(5, 20)  # Random max lag phase
+    exp_phase_max = np.random.randint(30, 60)  # Random max exponential phase
+
+    growth_curve = logistic_growth(P0, K, r, time_steps, lag_phase_max, exp_phase_max)
+    data.append(growth_curve)
+
+# Convert list of growth curves to a Pandas DataFrame
+df = pd.DataFrame(data)
+
+# Display the first few rows of the DataFrame
+print(df.head())
+
+# Plot multiple growth curves for visualization
+plt.figure(figsize=(10, 6))
+for i in range(10):  # Plot only 10 for clarity
+    plt.plot(df.columns, df.iloc[i], alpha=0.6)
+
+plt.xlabel("Time")
+plt.ylabel("Population Size")
+plt.title("Logistic Population Growth - 10 Random Simulations")
+plt.grid()
+plt.show()
