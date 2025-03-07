@@ -5,7 +5,10 @@ hobby1, hobby2, hobby3 = ["music", "cooking", "playing piano"]
 discipline1, discipline2, discipline3 = ["AMRs in Cancer", "Immunoinformatics", " Drug Discovery"]
 country1, country2, country3 = ["Nigeria", "Madagascar", " Russia"]
 pref_prog_lang1, pref_prog_lang2 = ["Python", "R"]
-Tutorial_monologue = f"Hello, My name is Ebube and I will be hosting this tutorial video.\n\nWe are team cysterine and we would like you to meet us.\n\nThe members of our team are {name}. You can contact us via our respective email addresses at {email}.\n\nYou can also find us on slack {slack_username}.\n\nWe are a team with a multidisciplinary field because I am specialized in {discipline1}, Haja in {discipline2} and Svetlana in {discipline3} \n\nI am from {country1}, Haja is from {country2}, and Svetlana is from {country3}.\n\nI love {hobby1}, Haja loves {hobby2} and Svetlana loves {hobby3}.\n\nHaja and I prefer to code in {pref_prog_lang1} while Svetlana prefers {pref_prog_lang2}.\n\nThank you so much for watching this short tutorial."
+Tutorial_monologue = f"Hello, My name is Ebube and I will be hosting this tutorial video.\n\nWe are team cysterine and we would like you to meet us.\n\nThe members of our team are {name}. 
+You can contact us via our respective email addresses at {email}.\n\nYou can also find us on slack {slack_username}.\n\nWe are a team with a multidisciplinary field because I am specialized in {discipline1}, Haja in {discipline2} and Svetlana in {discipline3} 
+\n\nI am from {country1}, Haja is from {country2}, and Svetlana is from {country3}.\n\nI love {hobby1}, Haja loves {hobby2} and Svetlana loves {hobby3}.\n\nHaja and I prefer to code in {pref_prog_lang1} while Svetlana prefers {pref_prog_lang2}.
+\n\nThank you so much for watching this short tutorial."
 print(Tutorial_monologue)
 
 #Here are the links to our tutorial video on LinkedIn:https://bit.ly/4gvIw90 and https://bit.ly/4aQCNJA
