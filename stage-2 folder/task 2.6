@@ -1,0 +1,76 @@
+#Transcriptomics
+#This is a processed RNAseq dataset involving reading in quantitated gene expression data from an RNA-seq experiment, exploring the data using base R functions and then interpretation. 
+#The dataset contains an experiment between a diseased cell line and diseased cell lines treated with compound X. 
+#The difference in expression change between the two health status is computed as Fold change to log 2 (Log2FC) and the significance of each is computed in p-value.
+
+#Dataset: https://gist.githubusercontent.com/stephenturner/806e31fce55a8b7175af/raw/1a507c4c3f9f1baaa3a69187223ff3d3050628d4/results.txt
+
+#Task:
+#Generate a volcano plot. (Hint search for volcano plot online)
+#Determine the upregulated genes (Genes with Log2FC > 1 and pvalue < 0.01)
+#Determine the downregulated genes (Genes with Log2FC < -1 and pvalue < 0.01)
+#What are the functions of the top 5 upregulated genes and top 5 downregulated genes. (Use genecards)
+
+
+#SOLUTION
+
+### Task 2.6 ###
+
+import pandas as pd
+import seaborn as sns
+import numpy as np
+
+#Import the gene expression dataset
+data = "https://gist.githubusercontent.com/stephenturner/806e31fce55a8b7175af/raw/1a507c4c3f9f1baaa3a69187223ff3d3050628d4/results.txt"
+#Read the dataset
+df = pd.read_csv(data, sep = r'\s+')
+
+#Create a neg_log10_pvalue for further volcano plot visualisation for scalability and better data representation
+df['neg_log10_pvalue'] = -np.log10(df['pvalue'])
+
+#Volcano plot visualisation
+sns.set(style="whitegrid")
+volcano_plot = sns.relplot(
+    data=df,
+    x="log2FoldChange",
+    y="neg_log10_pvalue",
+    hue=df["padj"] < 0.01,
+    palette={True: "red", False: "black"},
+    s=80,
+    height=6, aspect=1.5
+)
+volcano_plot.set_axis_labels("Log2 Fold Change", "-Log10 P-value")
+volcano_plot.fig.suptitle("Volcano Plot", fontsize=14)
+volcano_plot.figure.show()
+
+#Filtering gene expression data by log2FoldChange and pvalue parameters to find upregulated genes.
+upregulated_genes = df[(df['log2FoldChange'] > 1) & (df['pvalue'] < 0.01)]
+
+#Filtering gene expression data by log2FoldChange and pvalue parameters to find downregulated genes.
+downregulated_genes = df[(df['log2FoldChange'] < -1) & (df['pvalue'] < 0.01)]
+
+#Sorting top 5 upregulated genes according their log2FoldChange.
+top_up_genes = upregulated_genes.sort_values(by='log2FoldChange', ascending=False).head(5)
+up_gene_list = top_up_genes['Gene'].tolist()
+print("Top 5 Upregulated Genes:", up_gene_list)
+
+#Sorting top 5 downregulated genes according their log2FoldChange.
+top_down_genes = downregulated_genes.sort_values(by='log2FoldChange', ascending=True).head(5)
+down_gene_list = top_down_genes['Gene'].tolist()
+print("Top 5 Downregulated Genes:", down_gene_list)
+
+#Top 5 upregulated genes:
+#"DTHD1"   "EMILIN2" "PI16"    "C4orf45" "FAM180B"
+#DTHD1 (Death Domain-Containing Protein 1): Function in signaling pathways and formation of signaling complexes, as well as the apoptosis pathway.
+#EMILIN2 (Elastin Microfibril Interface-Located Protein 2): Enables extracellular matrix constituent conferring elasticity; involved in positive regulation of angiogenesis, of defense response to bacterium and of positive regulation of platelet aggregation.
+#PI16 (Peptidase Inhibitor 16 ): Negative regulation of peptidase activity; negative regulation of cell growth involved in cardiac muscle cell development.
+#C4orf45 (Sperm Microtubule Inner Protein 2):  Associated with hyperekplexia neurological disease with disturbed muscle functioning.
+#FAM180B (Family With Sequence Similarity 180 Member B): Predicted to be located in extracellular region. Associated with Borderline leprosy infectious disease and Mosaic Variegated Aneuploidy Syndrome which is a rare chromosomal anomaly, leading to various phenotypic abnormalities and an increased risk of cancer.
+
+#Top 5 downregulated genes:
+#'TBX5', 'IFITM1', 'TNN', 'COL13A1', 'IFITM3'
+#TBX5 (T-Box Transcription Factor 5): a member of a phylogenetically conserved family of genes that share a common DNA-binding domain, the T-box. T-box genes encode transcription factors involved in the regulation of developmental processes.
+#IFITM1 (Interferon Induced Transmembrane Protein 1): a family of interferon induced antiviral proteins. The protein encoded by this gene restricts cellular entry by diverse viral pathogens, such as influenza A virus, Ebola virus and Sars-CoV-2.
+#TNN (Tenascin N): Predicted to enable integrin binding activity. Involved in positive regulation of sprouting angiogenesis; regulation of cell adhesion; and regulation of cell migration.
+#COL13A1 (Collagen Type XIII Alpha 1 Chain): The function of this gene product is not known, it may serve a general function in connective tissues.
+#IFITM3 (Interferon Induced Transmembrane Protein 3): Interferon-induced transmembrane (IFITM) proteins are a family of interferon induced antiviral proteins. The protein encoded by this gene restricts cellular entry by diverse viral pathogens, such as influenza A virus, Ebola virus and Sars-CoV-2.
