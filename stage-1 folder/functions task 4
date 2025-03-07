@@ -1,0 +1,24 @@
+#Finally, write a function for calculating the hamming distance between your Slack username and twitter/X handle (synthesize if you don’t have one). 
+#Feel free to pad it with extra words if they are not of the same length.
+
+#Solution
+
+xusername = ["ebube_adiele1", "svetlana", "hariv"]
+slackusername = ["Ebubechiokike", "Svetlana", "Hajah"]
+
+# Function to calculate the Hamming distance
+def hamming_distance(str1, str2):
+    # Ensure both strings are of equal length
+    length = min(len(str1), len(str2))
+
+    # Calculate the Hamming distance
+    distance = 0
+    for i in range(length):
+        if str1[i].lower() != str2[i].lower():  # Case insensitive comparison
+            distance += 1
+    return distance
+
+# Iterate through both lists and calculate Hamming distance for each pair
+for i in range(len(xusername)):
+    dist = hamming_distance(xusername[i], slackusername[i])
+    print(f"Hamming distance between '{xusername[i]}' and '{slackusername[i]}': {dist}")
